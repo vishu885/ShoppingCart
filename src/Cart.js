@@ -30,17 +30,52 @@ class Cart extends React.Component{
             
 
         }
-        //this.increaseQuantity=this.increaseQuantity.bind(this); is used to bind function with this
-        //or we can use arrow function as below
+       
+    }
+    handleIncreaseQuantity=(product)=>{
+        console.log("Increased by ",product);
+        const {products}=this.state;
+        const index=products.indexOf(product);
+        products[index].qty+=1;
+        this.setState({
+            products:products
+        })
+
     }
 
+    handleDecreaseQuantity=(product)=>{
+        console.log("Decreased by ",product);
+        const {products}=this.state;
+        const index=products.indexOf(product);
+        if (products[index].qty===0)
+        return;
+        products[index].qty-=1;
+        this.setState({
+            products:products
+        })
+
+    }
+
+    handleDelete=(id)=>{
+        const {products}=this.state;
+        const items=products.filter((item)=>item.id!==id);
+        this.setState({
+            products:items
+        })
+    }
 
     render(){
         const {products}=this.state;
         return(
             <div className='cart'>
                  {products.map((product)=>{
-                 return <CartItem product={product} key={product.id}/>
+                 return <CartItem 
+                 product={product}
+                 key={product.id} 
+                 increaseQuantity={this.handleIncreaseQuantity} 
+                 decreaseQuantity={this.handleDecreaseQuantity}
+                 deleteQuantity={this.handleDelete}
+                  />
                   })}
                   </div>
       ) ;

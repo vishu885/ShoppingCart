@@ -12,7 +12,7 @@ class CartItem extends React.Component{
         //this.increaseQuantity=this.increaseQuantity.bind(this); is used to bind function with this
         //or we can use arrow function as below
     }*/
-    increaseQuantity=() => {
+    increaseQuantity=() => { //shift this code to Cart component as state is defined there
         //this.state.qty+=1; but is not reflected n ecognised by react
         console.log("this",this.state);
         //set state form 1
@@ -49,7 +49,10 @@ class CartItem extends React.Component{
 
     render(){
         console.log("this.props",this.props);
-        const {price,title,qty}= this.props.product; //object destructuring
+        const { price,title,qty}= this.props.product; //object destructuring
+        const { increaseQuantity,decreaseQuantity,product,deleteQuantity}=this.props;
+       
+        
         return(
             <div className="cart-item">
                 <div className="left-block">
@@ -61,12 +64,22 @@ class CartItem extends React.Component{
                     <div style={{color:'#777'}}>{qty}</div>
                     <div className="cart-item-actions">
                        <img className='action-items' 
-                       alt='increase' onClick={this.increaseQuantity}
-                       src='https://cdn-icons-png.flaticon.com/128/1828/1828919.png'/>
+                       alt='increase' 
+                      //before destructuring  onClick={()=>this.props.increaseQuantity(this.props.product)}//onClick={this.increaseQuantity}
+                      //after destructuring
+                      onClick={()=>increaseQuantity(product)}
+                      src='https://cdn-icons-png.flaticon.com/128/1828/1828919.png'/>
+                      
                        <img className='action-items' 
-                       alt='decrease' onClick={this.decreaseQuantity}
+                       alt='decrease' 
+                       onClick={()=>decreaseQuantity(product)}//onClick={this.decreaseQuantity}
                        src='<i class="fi fi-sr-minus-circle"></i>'/>
-                       <img className='action-items' alt='delete' src='https://cdn-icons-png.flaticon.com/128/6861/6861362.png'/>
+                      
+                       <img className='action-items' alt='delete' 
+                       src='https://cdn-icons-png.flaticon.com/128/6861/6861362.png'
+                       onClick={()=>deleteQuantity(product.id)}
+                       />
+                       
                     </div>
                 </div>
 
